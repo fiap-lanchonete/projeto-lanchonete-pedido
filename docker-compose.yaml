@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  api:
+    build:
+      context: .
+      target: development
+    image: lanchonete-pedido-api
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db-pedido-lanchonete
+    entrypoint: /usr/src/app/entrypoint.sh
+    volumes:
+      - .:/usr/src/app/
+      - /usr/src/app/node_modules
+    networks:
+      - lanchonete-pedido-network
+  db-pedido-lanchonete:
+    image: postgres
+    container_name: db-pedido-lanchonete
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_order_data:/var/lib/postgresql/data/
+    networks:
+      - lanchonete-pedido-network
+volumes:
+  postgres_order_data:
+networks:
+  lanchonete-pedido-network:
+    name: lanchonete-pedido-network
