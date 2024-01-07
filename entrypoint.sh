@@ -10,7 +10,9 @@ else
   npx prisma migrate dev
 
   # rodar seed to banco de dados
-  npx prisma db seed
+  # npx prisma db seed
 fi
+
+chown -R node:node /usr/src/app/dist
 
 su node -c "npm run start:dev"
