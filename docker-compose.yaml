@@ -29,8 +29,21 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     networks:
       - lanchonete-pedido-network
+  db-pedido-lanchonete-test:
+    image: postgres
+    container_name: db-pedido-lanchonete-test
+    env_file:
+      - .env.test
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data/
+    networks:
+      - lanchonete-pedido-network
 volumes:
   postgres_data:
+  postgres_data_test:
 networks:
   lanchonete-pedido-network:
     name: lanchonete-pedido-network
