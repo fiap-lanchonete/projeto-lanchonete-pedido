@@ -78,5 +78,6 @@ describe('CategoryController (e2e)', () => {
   afterAll(async () => {
     await prisma.$disconnect();
     await prisma.category.deleteMany();
+    await app.close();
   });
 });

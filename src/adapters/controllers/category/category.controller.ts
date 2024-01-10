@@ -37,7 +37,7 @@ export class CategoryController {
 
   @Get('')
   @ApiOperation({ summary: 'Get all categories' })
-  async getAllCategory() {
+  async getAllCategories() {
     return await this.getAllCategoryUseCase.execute();
   }
 
