@@ -72,6 +72,19 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "test-config",
+      "interfaces",
+      "jestGlobalMocks.ts",
+      ".module.ts",
+      ".spec.ts",
+      ".dto.ts",
+      ".js",
+      ".d.ts",
+      "<rootDir>/src/main.ts",
+      "<rootDir>/src/adapters/database/helpers/prisma.helper.ts"
+  ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   }

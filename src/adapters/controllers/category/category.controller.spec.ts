@@ -4,17 +4,17 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { CategoryController } from 'src/adapters/controllers/category/category.controller';
 import { CategoryRepository } from 'src/adapters/database/repositories/category.repository';
 import { CategoryService } from 'src/application/services/category.service';
-import { CreateCategoryUseCase } from 'src/application/usecases/create-category.usecase';
-import { DeleteCategoryUseCase } from 'src/application/usecases/delete-category.usecase';
-import { GetAllCategoryUseCase } from 'src/application/usecases/get--all-category.usecase';
-import { GetCategoryUseCase } from 'src/application/usecases/get-category.usecase';
-import { UpdateCategoryUseCase } from 'src/application/usecases/update-category.usecase';
+import { CreateCategoryUseCase } from 'src/application/usecases/category/create-category.usecase';
+import { DeleteCategoryUseCase } from 'src/application/usecases/category/delete-category.usecase';
+import { GetAllCategoriesUseCase } from 'src/application/usecases/category/get-all-categories.usecase';
+import { GetCategoryUseCase } from 'src/application/usecases/category/get-category.usecase';
+import { UpdateCategoryUseCase } from 'src/application/usecases/category/update-category.usecase';
 
 describe('CategoryController', () => {
   let categoryController: CategoryController;
   let createCategoryUseCase: CreateCategoryUseCase;
   let deleteCategoryUsecase: DeleteCategoryUseCase;
-  let getAllCategoriesUseCase: GetAllCategoryUseCase;
+  let getAllCategoriesUseCase: GetAllCategoriesUseCase;
   let getCategoryUseCase: GetCategoryUseCase;
   let updateCategoryUseCase: UpdateCategoryUseCase;
   let mockCategoryService: CategoryService;
@@ -24,7 +24,7 @@ describe('CategoryController', () => {
     mockCategoryService = new CategoryService(mockCategoryRepository);
     createCategoryUseCase = new CreateCategoryUseCase(mockCategoryService);
     deleteCategoryUsecase = new DeleteCategoryUseCase(mockCategoryService);
-    getAllCategoriesUseCase = new GetAllCategoryUseCase(mockCategoryService);
+    getAllCategoriesUseCase = new GetAllCategoriesUseCase(mockCategoryService);
     getCategoryUseCase = new GetCategoryUseCase(mockCategoryService);
     updateCategoryUseCase = new UpdateCategoryUseCase(mockCategoryService);
 
@@ -104,12 +104,16 @@ describe('CategoryController', () => {
       jest
         .spyOn(mockCategoryService, 'create')
         .mockImplementation(() => Promise.resolve(mockCategory));
+      jest.spyOn(createCategoryUseCase, 'execute');
 
       expect(
         await categoryController.createCategory({
           name: 'Category 1',
         }),
       ).toEqual(mockCategory);
+      expect(createCategoryUseCase.execute).toHaveBeenCalledWith({
+        name: 'Category 1',
+      });
     });
   });
 
@@ -125,8 +129,10 @@ describe('CategoryController', () => {
       jest
         .spyOn(mockCategoryService, 'findOne')
         .mockImplementation(() => Promise.resolve(mockCategory));
+      jest.spyOn(getCategoryUseCase, 'execute');
 
       expect(await categoryController.getCategory('1')).toEqual(mockCategory);
+      expect(getCategoryUseCase.execute).toHaveBeenCalledWith(1);
     });
   });
 
@@ -142,12 +148,19 @@ describe('CategoryController', () => {
       jest
         .spyOn(mockCategoryService, 'update')
         .mockImplementation(() => Promise.resolve(mockCategory));
+      jest.spyOn(updateCategoryUseCase, 'execute');
 
       expect(
         await categoryController.updateCategory('1', {
           name: 'Category 1',
         }),
       ).toEqual(mockCategory);
+      expect(updateCategoryUseCase.execute).toHaveBeenCalledWith({
+        data: {
+          name: 'Category 1',
+        },
+        id: 1,
+      });
     });
   });
 
@@ -156,10 +169,13 @@ describe('CategoryController', () => {
       jest
         .spyOn(mockCategoryService, 'delete')
         .mockImplementation(() => Promise.resolve());
+      jest.spyOn(deleteCategoryUsecase, 'execute');
 
       await categoryController.deleteCategory('1');
+
       expect(mockCategoryService.delete).toHaveBeenCalledWith(1);
       expect(mockCategoryService.delete).toHaveBeenCalledTimes(1);
+      expect(deleteCategoryUsecase.execute).toHaveBeenCalledWith(1);
     });
   });
 });

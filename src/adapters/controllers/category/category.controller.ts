@@ -11,18 +11,18 @@ import {
 import { ApiTags, ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger'; // Import Swagger decorators
 import { CreateCategoryDTO } from 'src/application/dtos/create-category.dto';
 import { UpdateCategoryDTO } from 'src/application/dtos/update-category.dto';
-import { CreateCategoryUseCase } from 'src/application/usecases/create-category.usecase';
-import { DeleteCategoryUseCase } from 'src/application/usecases/delete-category.usecase';
-import { GetAllCategoryUseCase } from 'src/application/usecases/get--all-category.usecase';
-import { GetCategoryUseCase } from 'src/application/usecases/get-category.usecase';
-import { UpdateCategoryUseCase } from 'src/application/usecases/update-category.usecase';
+import { CreateCategoryUseCase } from 'src/application/usecases/category/create-category.usecase';
+import { DeleteCategoryUseCase } from 'src/application/usecases/category/delete-category.usecase';
+import { GetAllCategoriesUseCase } from 'src/application/usecases/category/get-all-categories.usecase';
+import { GetCategoryUseCase } from 'src/application/usecases/category/get-category.usecase';
+import { UpdateCategoryUseCase } from 'src/application/usecases/category/update-category.usecase';
 
 @ApiTags('Category')
 @Controller('v1/category')
 export class CategoryController {
   constructor(
     private readonly createCategoryUseCase: CreateCategoryUseCase,
-    private readonly getAllCategoryUseCase: GetAllCategoryUseCase,
+    private readonly getAllCategoriesUseCase: GetAllCategoriesUseCase,
     private readonly getCategoryUseCase: GetCategoryUseCase,
     private readonly updateCategoryUseCase: UpdateCategoryUseCase,
     private readonly deleteCategoryUseCase: DeleteCategoryUseCase,
@@ -38,7 +38,7 @@ export class CategoryController {
   @Get('')
   @ApiOperation({ summary: 'Get all categories' })
   async getAllCategories() {
-    return await this.getAllCategoryUseCase.execute();
+    return await this.getAllCategoriesUseCase.execute();
   }
 
   @Get(':id')

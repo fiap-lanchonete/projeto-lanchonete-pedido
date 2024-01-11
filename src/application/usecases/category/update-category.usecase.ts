@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CategoryService } from '../services/category.service';
+import { CategoryService } from 'src/application/services/category.service';
 
 @Injectable()
 export class UpdateCategoryUseCase {
