@@ -15,6 +15,9 @@ lerna-debug.log*
 .DS_Store
 
 # Tests
+/coverage/lcov-report
+/coverage/clover.xml
+/coverage/coverage-final.json
 /.nyc_output
 
 # IDEs and editors
