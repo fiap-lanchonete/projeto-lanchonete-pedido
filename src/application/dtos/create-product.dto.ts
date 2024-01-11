@@ -4,11 +4,11 @@ import { IsString, IsDecimal, IsInt, Min } from 'class-validator';
 export class CreateProductDTO {
   @IsString()
   @ApiProperty()
-  nome: string;
+  name: string;
 
   @IsDecimal(
     { force_decimal: true },
-    { message: 'Preço deve ser um número válido' },
+    { message: 'Price should be a valid number' },
   )
   @ApiProperty()
   price: any;

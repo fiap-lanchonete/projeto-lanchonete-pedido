@@ -6,6 +6,8 @@ import {
   Post,
   Put,
   Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger'; // Importe os decoradores do Swagger
 import { CreateProductDTO } from 'src/application/dtos/create-product.dto';
@@ -27,7 +29,7 @@ export class ProductController {
     private readonly deleteProductUseCase: DeleteProductUseCase,
   ) {}
 
-  @Post()
+  @Post('')
   @ApiOperation({ summary: 'Create new product' })
   @ApiBody({ type: CreateProductDTO })
   async createProduct(@Body() data: CreateProductDTO) {
@@ -41,14 +43,14 @@ export class ProductController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get product by id' })
+  @ApiOperation({ summary: 'Get product by ID' })
   @ApiParam({ name: 'id', type: 'string' })
   async getProduct(@Param('id') id: string) {
     return await this.getProductUseCase.execute(Number(id));
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update product by id' })
+  @ApiOperation({ summary: 'Update product by ID' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiBody({ type: UpdateProductDTO })
   async updateProduct(@Param('id') id: string, @Body() data: UpdateProductDTO) {
@@ -56,8 +58,9 @@ export class ProductController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete product by id' })
+  @ApiOperation({ summary: 'Delete product by ID' })
   @ApiParam({ name: 'id', type: 'string' })
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteProduct(@Param('id') id: string) {
     return await this.deleteProductUseCase.execute(Number(id));
   }

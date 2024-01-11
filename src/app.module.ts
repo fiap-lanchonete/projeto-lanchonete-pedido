@@ -7,6 +7,7 @@ import { PrismaHelper } from 'src/adapters/database/helpers/prisma.helper';
 import { CategoryRepository } from 'src/adapters/database/repositories/category.repository';
 import { ProductRepository } from 'src/adapters/database/repositories/product.repository';
 import { CategoryService } from 'src/application/services/category.service';
+import { ProductService } from 'src/application/services/product.service';
 import { CreateCategoryUseCase } from 'src/application/usecases/category/create-category.usecase';
 import { DeleteCategoryUseCase } from 'src/application/usecases/category/delete-category.usecase';
 import { GetAllCategoriesUseCase } from 'src/application/usecases/category/get-all-categories.usecase';
@@ -22,6 +23,7 @@ import { UpdateProductsUseCase } from 'src/application/usecases/product/update-p
   controllers: [CategoryController, ProductController],
   providers: [
     CategoryService,
+    ProductService,
     GetAllCategoriesUseCase,
     CreateCategoryUseCase,
     GetCategoryUseCase,
