@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger'; // Import Swagger decorators
 import { CreateCategoryDTO } from 'src/application/dtos/create-category.dto';
@@ -62,7 +63,7 @@ export class CategoryController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a category by ID' })
   @ApiParam({ name: 'id', type: 'integer' })
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deleteCategory(@Param('id') id: string) {
     return await this.deleteCategoryUseCase.execute(Number(id));
   }

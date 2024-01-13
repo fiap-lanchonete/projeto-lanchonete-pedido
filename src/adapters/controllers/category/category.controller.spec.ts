@@ -59,6 +59,29 @@ describe('CategoryController', () => {
   });
 
   describe('createCategory', () => {
+    it('should create a new category', async () => {
+      const mockCategory: Category = {
+        id: 1,
+        name: 'Category 1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      jest
+        .spyOn(mockCategoryService, 'create')
+        .mockImplementation(() => Promise.resolve(mockCategory));
+      jest.spyOn(createCategoryUseCase, 'execute');
+
+      expect(
+        await categoryController.createCategory({
+          name: 'Category 1',
+        }),
+      ).toEqual(mockCategory);
+      expect(createCategoryUseCase.execute).toHaveBeenCalledWith({
+        name: 'Category 1',
+      });
+    });
+
     it('should throw generic error if is not a duplication error', async () => {
       jest
         .spyOn(mockCategoryService, 'create')
@@ -91,29 +114,6 @@ describe('CategoryController', () => {
           name: 'Category 1',
         }),
       ).rejects.toThrow(ConflictException);
-    });
-
-    it('should create a new category', async () => {
-      const mockCategory: Category = {
-        id: 1,
-        name: 'Category 1',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      jest
-        .spyOn(mockCategoryService, 'create')
-        .mockImplementation(() => Promise.resolve(mockCategory));
-      jest.spyOn(createCategoryUseCase, 'execute');
-
-      expect(
-        await categoryController.createCategory({
-          name: 'Category 1',
-        }),
-      ).toEqual(mockCategory);
-      expect(createCategoryUseCase.execute).toHaveBeenCalledWith({
-        name: 'Category 1',
-      });
     });
   });
 
