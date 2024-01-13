@@ -14,7 +14,7 @@ import { CreateProductDTO } from 'src/application/dtos/create-product.dto';
 import { UpdateProductDTO } from 'src/application/dtos/update-product.dto';
 import { CreateProductUseCase } from 'src/application/usecases/product/create-product.usecase';
 import { DeleteProductUseCase } from 'src/application/usecases/product/delete-product.usecase';
-import { GetAllProductUseCase } from 'src/application/usecases/product/get--all-product.usecase';
+import { GetAllProductsUseCase } from 'src/application/usecases/product/get-all-products.usecase';
 import { GetProductUseCase } from 'src/application/usecases/product/get-product.usecase';
 import { UpdateProductsUseCase } from 'src/application/usecases/product/update-product.usecase';
 
@@ -23,7 +23,7 @@ import { UpdateProductsUseCase } from 'src/application/usecases/product/update-p
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
-    private readonly getAllProductUseCase: GetAllProductUseCase,
+    private readonly getAllProductUseCase: GetAllProductsUseCase,
     private readonly getProductUseCase: GetProductUseCase,
     private readonly updateProductUseCase: UpdateProductsUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
@@ -38,7 +38,7 @@ export class ProductController {
 
   @Get('')
   @ApiOperation({ summary: 'Get all products' })
-  async getAllProduct() {
+  async getAllProducts() {
     return await this.getAllProductUseCase.execute();
   }
 

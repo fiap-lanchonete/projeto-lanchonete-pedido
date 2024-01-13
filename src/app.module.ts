@@ -15,7 +15,7 @@ import { GetCategoryUseCase } from 'src/application/usecases/category/get-catego
 import { UpdateCategoryUseCase } from 'src/application/usecases/category/update-category.usecase';
 import { CreateProductUseCase } from 'src/application/usecases/product/create-product.usecase';
 import { DeleteProductUseCase } from 'src/application/usecases/product/delete-product.usecase';
-import { GetAllProductUseCase } from 'src/application/usecases/product/get--all-product.usecase';
+import { GetAllProductsUseCase } from 'src/application/usecases/product/get-all-products.usecase';
 import { GetProductUseCase } from 'src/application/usecases/product/get-product.usecase';
 import { UpdateProductsUseCase } from 'src/application/usecases/product/update-product.usecase';
 @Module({
@@ -29,7 +29,7 @@ import { UpdateProductsUseCase } from 'src/application/usecases/product/update-p
     GetCategoryUseCase,
     UpdateCategoryUseCase,
     DeleteCategoryUseCase,
-    GetAllProductUseCase,
+    GetAllProductsUseCase,
     CreateProductUseCase,
     GetProductUseCase,
     UpdateProductsUseCase,
