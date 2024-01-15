@@ -1,3 +1,4 @@
+import { HttpService } from '@nestjs/axios';
 import {
   Body,
   Controller,
@@ -12,13 +13,14 @@ import {
 import { ApiTags, ApiOperation, ApiParam, ApiBody } from '@nestjs/swagger'; // Importe os decoradores do Swagger
 import { CreateProductDTO } from 'src/application/dtos/create-product.dto';
 import { UpdateProductDTO } from 'src/application/dtos/update-product.dto';
+import { StartPaymentUseCase } from 'src/application/usecases/order/start-payment.usecase';
 import { CreateProductUseCase } from 'src/application/usecases/product/create-product.usecase';
 import { DeleteProductUseCase } from 'src/application/usecases/product/delete-product.usecase';
 import { GetAllProductsUseCase } from 'src/application/usecases/product/get-all-products.usecase';
 import { GetProductUseCase } from 'src/application/usecases/product/get-product.usecase';
 import { UpdateProductsUseCase } from 'src/application/usecases/product/update-product.usecase';
 
-@ApiTags('Produto')
+@ApiTags('Product')
 @Controller('v1/product')
 export class ProductController {
   constructor(
@@ -27,6 +29,7 @@ export class ProductController {
     private readonly getProductUseCase: GetProductUseCase,
     private readonly updateProductUseCase: UpdateProductsUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
+    private readonly startPaymentUseCase: StartPaymentUseCase,
   ) {}
 
   @Post('')
@@ -63,5 +66,13 @@ export class ProductController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteProduct(@Param('id') id: string) {
     return await this.deleteProductUseCase.execute(Number(id));
+  }
+
+  @Post('/start-payment/:id')
+  @ApiOperation({ summary: 'Start Payment process' })
+  @ApiParam({ name: 'id', type: 'string' })
+  @HttpCode(HttpStatus.CREATED)
+  async startPayment(@Param('id') id: string) {
+    return await this.startPaymentUseCase.execute(Number(id));
   }
 }

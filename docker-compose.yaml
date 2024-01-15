@@ -4,22 +4,22 @@ services:
     build:
       context: .
       target: development
-    image: lanchonete-pedido-api
+    image: pedido-api
     ports:
       - "3000:3000"
     env_file:
       - .env
     depends_on:
-      - db-pedido-lanchonete
+      - db-pedido
     entrypoint: /usr/src/app/entrypoint.sh
     volumes:
       - .:/usr/src/app/
       - /usr/src/app/node_modules
     networks:
-      - lanchonete-pedido-network
-  db-pedido-lanchonete:
+      - pedido-network
+  db-pedido:
     image: postgres
-    container_name: db-pedido-lanchonete
+    container_name: db-pedido
     env_file:
       - .env
     restart: always
@@ -28,10 +28,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     networks:
-      - lanchonete-pedido-network
-  db-pedido-lanchonete-test:
+      - pedido-network
+  db-pedido-test:
     image: postgres
-    container_name: db-pedido-lanchonete-test
+    container_name: db-pedido-test
     env_file:
       - .env.test
     restart: always
@@ -40,10 +40,10 @@ services:
     volumes:
       - postgres_data_test:/var/lib/postgresql/data/
     networks:
-      - lanchonete-pedido-network
+      - pedido-network
 volumes:
   postgres_data:
   postgres_data_test:
 networks:
-  lanchonete-pedido-network:
-    name: lanchonete-pedido-network
+  pedido-network:
+    name: pedido-network

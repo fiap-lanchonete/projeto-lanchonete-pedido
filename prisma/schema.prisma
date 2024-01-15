@@ -18,6 +18,7 @@ model Product {
   amount      Int
   category    Category @relation(fields: [category_id], references: [id])
   category_id Int
+  order       Order[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 }
@@ -26,6 +27,15 @@ model Category {
   id        Int       @id @default(autoincrement())
   name      String    @unique
   Product   Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
+
+model Order {
+  id        Int       @id @default(autoincrement())
+  total     Decimal?
+  user_id   Int?
+  products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
 }
