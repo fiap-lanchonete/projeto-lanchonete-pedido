@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   Put,
-  Delete,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -50,16 +49,8 @@ export class OrderController {
     return await this.updateOrderUseCase.execute(Number(id), data);
   }
 
-  @Delete(':id')
-  @ApiOperation({ summary: 'Remove order by id' })
-  @ApiParam({ name: 'id', type: 'string' })
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async removeOrder(@Param('id') id: string, @Body() data: UpdateOrderDTO) {
-    return await this.updateOrderUseCase.execute(Number(id), data);
-  }
-
   @Post('/start-payment/:id')
-  @ApiOperation({ summary: 'Start Payment process' })
+  @ApiOperation({ summary: 'Start payment process' })
   @ApiParam({ name: 'id', type: 'string' })
   @HttpCode(HttpStatus.CREATED)
   async startPayment(@Param('id') id: string) {

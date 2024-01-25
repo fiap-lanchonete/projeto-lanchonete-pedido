@@ -2,7 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CategoryController } from 'src/adapters/controllers/category/category.controller';
-import { OrderController } from 'src/adapters/controllers/order/order-controller';
+import { OrderController } from 'src/adapters/controllers/order/order.controller';
 import { ProductController } from 'src/adapters/controllers/product/product.controller';
 
 import { PrismaHelper } from 'src/adapters/database/helpers/prisma.helper';
