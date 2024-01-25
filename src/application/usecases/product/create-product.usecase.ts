@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { Product } from 'src/@types/product';
 import { ProductService } from 'src/application/services/product.service';
 
 @Injectable()

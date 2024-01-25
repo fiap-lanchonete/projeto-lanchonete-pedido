@@ -18,7 +18,7 @@ import { GetAllProductsUseCase } from 'src/application/usecases/product/get-all-
 import { GetProductUseCase } from 'src/application/usecases/product/get-product.usecase';
 import { UpdateProductsUseCase } from 'src/application/usecases/product/update-product.usecase';
 
-@ApiTags('Produto')
+@ApiTags('Product')
 @Controller('v1/product')
 export class ProductController {
   constructor(

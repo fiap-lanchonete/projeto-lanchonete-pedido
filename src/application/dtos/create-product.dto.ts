@@ -1,17 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsDecimal, IsInt, Min } from 'class-validator';
+import { IsString, IsInt, Min, IsNumber } from 'class-validator';
 
 export class CreateProductDTO {
   @IsString()
   @ApiProperty()
   name: string;
 
-  @IsDecimal(
-    { force_decimal: true },
-    { message: 'Price should be a valid number' },
-  )
+  @IsNumber()
   @ApiProperty()
-  price: any;
+  price: number;
 
   @IsString()
   @ApiProperty()

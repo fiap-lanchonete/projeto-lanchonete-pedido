@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsDecimal, IsInt, Min, IsOptional } from 'class-validator';
+import { IsString, IsInt, Min, IsOptional, IsNumber } from 'class-validator';
 
 export class UpdateProductDTO {
   @IsInt()
@@ -11,12 +11,9 @@ export class UpdateProductDTO {
   @ApiProperty()
   name: string;
 
-  @IsDecimal(
-    { force_decimal: true },
-    { message: 'Price should be a valid number' },
-  )
+  @IsNumber()
   @ApiProperty()
-  price: any;
+  price: number;
 
   @IsString()
   @ApiProperty()

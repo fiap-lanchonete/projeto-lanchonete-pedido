@@ -13,6 +13,4 @@ else
   # npx prisma db seed
 fi
 
-chown -R node:node /usr/src/app/dist
-
 su node -c "npm run start:dev"

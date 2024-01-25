@@ -1,4 +1,3 @@
-import { Decimal } from '@prisma/client/runtime/library';
 import { PrismaHelper } from 'src/adapters/database/helpers/prisma.helper';
 import { ProductRepository } from 'src/adapters/database/repositories/product.repository';
 import { ProductService } from 'src/application/services/product.service';
@@ -23,7 +22,7 @@ describe('ProductService', () => {
           description: 'This is a test product',
           amount: 1,
           category_id: 1,
-          price: new Decimal('10.0'),
+          price: 10.0,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -33,7 +32,7 @@ describe('ProductService', () => {
           description: 'This is a test product 2',
           amount: 1,
           category_id: 2,
-          price: new Decimal('10.0'),
+          price: 10.0,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -71,7 +70,7 @@ describe('ProductService', () => {
         description: 'This is a test product',
         amount: 1,
         category_id: 1,
-        price: new Decimal('10.0'),
+        price: 10.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -95,7 +94,7 @@ describe('ProductService', () => {
         description: 'This is a test product',
         amount: 1,
         category_id: 1,
-        price: new Decimal('10.0'),
+        price: 10.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -121,7 +120,7 @@ describe('ProductService', () => {
         description: 'This is a test product',
         amount: 1,
         category_id: 1,
-        price: new Decimal('10.0'),
+        price: 10.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

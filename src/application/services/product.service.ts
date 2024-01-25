@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Product } from 'src/@types/product';
 import { IProduct } from 'src/application/interfaces/product.repository.interface';
 
 @Injectable()
