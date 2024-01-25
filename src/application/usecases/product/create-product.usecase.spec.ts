@@ -21,7 +21,7 @@ describe('CreateProductUseCase', () => {
         description: 'This is a test product',
         amount: 1,
         category_id: 1,
-        price: '10.0',
+        price: 10.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -32,7 +32,7 @@ describe('CreateProductUseCase', () => {
 
       const createdProduct = await createProductUseCase.execute({
         name: 'Test Product',
-        price: '10.0',
+        price: 10.0,
       });
 
       expect(createdProduct).toEqual(product);
@@ -45,7 +45,7 @@ describe('CreateProductUseCase', () => {
         description: 'This is a test product',
         amount: 1,
         category_id: 1,
-        price: '10.0',
+        price: 10.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

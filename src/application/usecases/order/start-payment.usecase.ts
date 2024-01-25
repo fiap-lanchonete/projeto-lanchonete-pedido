@@ -1,7 +1,9 @@
 import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { OrderService } from 'src/application/services/order.service';
 
+@Injectable()
 export class StartPaymentUseCase {
   constructor(
     private readonly orderService: OrderService,

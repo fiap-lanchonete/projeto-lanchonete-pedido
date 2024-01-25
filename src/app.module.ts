@@ -18,6 +18,7 @@ import { GetAllCategoriesUseCase } from 'src/application/usecases/category/get-a
 import { GetCategoryUseCase } from 'src/application/usecases/category/get-category.usecase';
 import { UpdateCategoryUseCase } from 'src/application/usecases/category/update-category.usecase';
 import { CreateOrderUseCase } from 'src/application/usecases/order/create-order.usecase';
+import { GetOrderUseCase } from 'src/application/usecases/order/get-order.usecase';
 import { StartPaymentUseCase } from 'src/application/usecases/order/start-payment.usecase';
 import { UpdateOrderUseCase } from 'src/application/usecases/order/update-order.usecase';
 import { CreateProductUseCase } from 'src/application/usecases/product/create-product.usecase';
@@ -42,6 +43,7 @@ import { UpdateProductsUseCase } from 'src/application/usecases/product/update-p
     GetProductUseCase,
     UpdateProductsUseCase,
     DeleteProductUseCase,
+    GetOrderUseCase,
     CreateOrderUseCase,
     UpdateOrderUseCase,
     StartPaymentUseCase,

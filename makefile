@@ -1,13 +1,13 @@
 .PHONY: dev test
 
 dev:
-	docker compose up api db-pedido-lanchonete -d
+	docker compose up api db-pedido -d
 
 test:
-	docker compose up db-pedido-lanchonete-test -d
+	docker compose up db-pedido-test -d
 
 stop_dev:
-	docker compose stop api db-pedido-lanchonete
+	docker compose stop api db-pedido
 
 stop_test:
-	docker compose stop db-pedidos-lanchonete-test
+	docker compose stop db-pedido-test

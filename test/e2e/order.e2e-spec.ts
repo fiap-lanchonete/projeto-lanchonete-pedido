@@ -1,11 +1,11 @@
+import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { TestingModule, Test } from '@nestjs/testing';
 import * as request from 'supertest';
+import { AppModule } from '../../src/app.module';
 import { PrismaHelper } from 'src/adapters/database/helpers/prisma.helper';
-import { AppModule } from 'src/app.module';
 import { useContainer } from 'class-validator';
 
-describe('Product Controller (e2e)', () => {
+describe('OrderController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaHelper;
 
@@ -19,8 +19,16 @@ describe('Product Controller (e2e)', () => {
     name: 'Test Product',
     description: 'Test Description',
     amount: 0,
-    price: 1.0,
+    price: 50,
     category_id: 2,
+  };
+
+  const mockedOrder = {
+    id: 333,
+    total: 1,
+    user_id: 22,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   beforeAll(async () => {
@@ -36,57 +44,76 @@ describe('Product Controller (e2e)', () => {
 
     await app.init();
 
+    await prisma.order.create({
+      data: mockedOrder,
+    });
     await prisma.category.create({
       data: mockedCategory,
     });
-
     await prisma.product.create({
       data: mockedProduct,
     });
   });
 
-  it('/v1/product (GET)', () => {
+  it('/v1/order/:id (GET)', () => {
     return request(app.getHttpServer())
-      .get('/v1/product')
+      .get(`/v1/order/${mockedOrder.id}`)
       .expect(200)
       .expect((response) => {
-        expect(response.body[0].name).toEqual(mockedProduct.name);
-        expect(response.body[0].id).toBeDefined();
+        expect(response.body.id).toEqual(mockedOrder.id);
+        expect(response.body.id).toBeDefined();
+        expect(response.body.user_id).toEqual(mockedOrder.user_id);
       });
   });
 
-  it('/v1/product/:id (GET)', () => {
+  it('/v1/order/:id (PUT)', () => {
+    const mockedOrderToUpdate = {
+      products: [
+        {
+          id: mockedProduct.id,
+        },
+      ],
+    };
+
     return request(app.getHttpServer())
-      .get(`/v1/product/1`)
+      .put(`/v1/order/${mockedOrder.id}`)
+      .send(mockedOrderToUpdate)
       .expect(200)
       .expect((response) => {
-        expect(response.body.name).toEqual(mockedProduct.name);
         expect(response.body.id).toBeDefined();
       });
   });
 
-  it('/v1/product/:id (DELETE)', () => {
+  it('/v1/order/:id (DELETE)', () => {
     return request(app.getHttpServer())
-      .delete(`/v1/product/${mockedProduct.id}`)
+      .delete(`/v1/order/${mockedOrder.id}`)
       .expect(204);
   });
 
-  it('/v1/product (POST)', () => {
-    const mockedProductToCreate = {
-      id: 2,
-      name: 'Test Product Post',
-      description: 'Test Description 2',
-      amount: 0,
-      price: 14,
-      category_id: 2,
+  it('/v1/order (POST)', () => {
+    const mockedOrderToCreate = {
+      user_id: 23,
     };
 
     return request(app.getHttpServer())
-      .post('/v1/product')
-      .send(mockedProductToCreate)
+      .post('/v1/order')
+      .send(mockedOrderToCreate)
       .expect(201)
       .expect((response) => {
-        expect(response.body.name).toEqual(mockedProductToCreate.name);
+        expect(response.body.id).toBeDefined();
+      });
+  });
+
+  it('/v1/order (POST) with product', () => {
+    const mockedOrderToCreate = {
+      user_id: 23,
+    };
+
+    return request(app.getHttpServer())
+      .post('/v1/order')
+      .send(mockedOrderToCreate)
+      .expect(201)
+      .expect((response) => {
         expect(response.body.id).toBeDefined();
       });
   });
@@ -95,6 +122,7 @@ describe('Product Controller (e2e)', () => {
     await prisma.$disconnect();
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
+    await prisma.order.deleteMany();
     await app.close();
   });
 });

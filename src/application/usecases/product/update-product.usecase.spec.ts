@@ -20,7 +20,7 @@ describe('UpdateProductUseCase', () => {
         description: 'This is a test product',
         amount: 1,
         category_id: 1,
-        price: '10.0',
+        price: 10.0,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

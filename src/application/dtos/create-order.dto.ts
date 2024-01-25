@@ -1,37 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDecimal, IsInt, IsString, Min } from 'class-validator';
-
-class Product {
-  @IsInt()
-  @ApiProperty()
-  id: number;
-
-  @IsString()
-  @ApiProperty()
-  nome: string;
-
-  @IsString()
-  @ApiProperty()
-  description: string;
-
-  @IsInt()
-  @Min(0)
-  @ApiProperty()
-  amount: number;
-
-  @IsInt()
-  @ApiProperty()
-  category_id: number;
-}
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateOrderDTO {
-  @IsDecimal()
   @ApiProperty()
-  total: any;
-
-  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
   user_id: number;
-
-  @ApiProperty({ type: () => [Product] })
-  products: Partial<Product>[];
 }

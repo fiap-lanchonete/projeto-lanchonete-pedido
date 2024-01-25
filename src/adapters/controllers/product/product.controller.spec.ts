@@ -1,9 +1,6 @@
 import { ConflictException } from '@nestjs/common';
 import { Product } from '@prisma/client';
-import {
-  Decimal,
-  PrismaClientKnownRequestError,
-} from '@prisma/client/runtime/library';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ProductController } from 'src/adapters/controllers/product/product.controller';
 import { ProductRepository } from 'src/adapters/database/repositories/product.repository';
 import { ProductService } from 'src/application/services/product.service';
@@ -46,7 +43,7 @@ describe('ProductController', () => {
         {
           id: 1,
           name: 'Product 1',
-          price: new Decimal('10'),
+          price: 10,
           amount: 1,
           description: 'Description 1',
           category_id: 1,
@@ -68,7 +65,7 @@ describe('ProductController', () => {
       const mockProduct: Product = {
         id: 1,
         name: 'Product 1',
-        price: new Decimal('10'),
+        price: 10,
         amount: 1,
         description: 'Description 1',
         category_id: 1,
@@ -83,7 +80,7 @@ describe('ProductController', () => {
       expect(
         await productController.createProduct({
           name: 'Product 1',
-          price: new Decimal('10'),
+          price: 10,
           amount: 1,
           description: 'Description 1',
           category_id: 1,
@@ -139,7 +136,7 @@ describe('ProductController', () => {
       const mockProduct: Product = {
         id: 1,
         name: 'Product 1',
-        price: new Decimal('10'),
+        price: 10,
         amount: 1,
         description: 'Description 1',
         category_id: 1,
@@ -160,7 +157,7 @@ describe('ProductController', () => {
       const mockProduct: Product = {
         id: 1,
         name: 'Product 1',
-        price: new Decimal('10'),
+        price: 10,
         amount: 1,
         description: 'Description 1',
         category_id: 1,
@@ -176,7 +173,7 @@ describe('ProductController', () => {
         await productController.updateProduct('1', {
           id: 1,
           name: 'Product 1',
-          price: new Decimal('10'),
+          price: 10,
           amount: 1,
           description: 'Description 1',
           category_id: 1,

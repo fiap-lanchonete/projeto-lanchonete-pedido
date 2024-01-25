@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv -e .env.test -- npx prisma migrate reset --force --skip-seed  && dotenv -e .env.test -- jest --runInBand --config ./test/jest-e2e.json;"
+    "test:e2e": "dotenv -e .env.test -- npx prisma migrate reset --force --skip-seed  && dotenv -e .env.test -- jest --runInBand --config ./test/jest-e2e.json;",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.1",
@@ -55,7 +56,8 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.2.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "husky": "^8.0.0"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -13,7 +13,7 @@ datasource db {
 model Product {
   id          Int      @id @default(autoincrement())
   name        String   @unique
-  price       Decimal
+  price       Float
   description String
   amount      Int
   category    Category @relation(fields: [category_id], references: [id])
@@ -33,7 +33,7 @@ model Category {
 
 model Order {
   id        Int       @id @default(autoincrement())
-  total     Decimal?
+  total     Float?
   user_id   Int?
   products  Product[]
   createdAt DateTime  @default(now())
