@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  api:
+    image: rickwalking/lanchonete-pedido:latest
+    ports:
+      - "80:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db-lanchonete-pedido-prod
+    networks:
+      - lanchonete-pedido-prod-network
+  db-lanchonete-pedido-prod:
+    image: postgres
+    container_name: db-lanchonete-pedido-prod
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data/
+    networks:
+      - lanchonete-pedido-prod-network
+volumes:
+  postgres_prod_data:
+networks:
+  lanchonete-pedido-prod-network:
+    name: lanchonete-pedido-prod-network
