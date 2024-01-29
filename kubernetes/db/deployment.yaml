@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgres-pedido
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgres-pedido
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-pedido
     spec:
       containers:
-      - name: postgres
+      - name: postgres-pedido
         image: postgres
         resources:
           limits:
@@ -28,15 +28,15 @@ spec:
           - name: POSTGRES_DB
             valueFrom:
               secretKeyRef:
-                name: postgres-secrets
+                name: postgres-pedido-secrets
                 key: postgres_db
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
-                name: postgres-secrets
+                name: postgres-pedido-secrets
                 key: postgres_user
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: postgres-secrets
+                name: postgres-pedido-secrets
                 key: postgres_password
