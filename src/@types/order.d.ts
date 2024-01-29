@@ -4,7 +4,7 @@ namespace Order {
   interface Data {
     id?: number;
     total?: number;
-    user_id: number;
+    cpf?: number;
     products?: Partial<Product.Data>[];
     createdAt: Date;
     updatedAt: Date;
