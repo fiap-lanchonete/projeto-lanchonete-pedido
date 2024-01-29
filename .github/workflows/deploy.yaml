@@ -52,4 +52,3 @@ jobs:
         aws eks update-kubeconfig --name ${{ secrets.KUBERNETES_CLUSTER_NAME }}
         echo "$KUBE_CONFIG_DATA" | base64 -d > kubeconfig.yaml
         kubectl apply -f kubernetes/api/
-        kubectl apply -f kubernetes/db/
