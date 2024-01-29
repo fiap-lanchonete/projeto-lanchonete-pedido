@@ -44,7 +44,7 @@ describe('OrderController', () => {
         amount: 1,
         description: 'Description 1',
         category_id: 1,
-        user_id: 22,
+        cpf: 22,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -55,7 +55,7 @@ describe('OrderController', () => {
 
       expect(
         await orderController.createOrder({
-          user_id: 22,
+          cpf: 22,
         }),
       ).toEqual(mockOrder);
     });
@@ -70,7 +70,7 @@ describe('OrderController', () => {
         amount: 1,
         description: 'Description 1',
         category_id: 1,
-        user_id: 23,
+        cpf: 23,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -92,7 +92,7 @@ describe('OrderController', () => {
         amount: 1,
         description: 'Description 1',
         category_id: 1,
-        user_id: 24,
+        cpf: 24,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

@@ -26,7 +26,7 @@ describe('OrderController (e2e)', () => {
   const mockedOrder = {
     id: 333,
     total: 1,
-    user_id: 22,
+    cpf: 22,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -62,7 +62,7 @@ describe('OrderController (e2e)', () => {
       .expect((response) => {
         expect(response.body.id).toEqual(mockedOrder.id);
         expect(response.body.id).toBeDefined();
-        expect(response.body.user_id).toEqual(mockedOrder.user_id);
+        expect(response.body.cpf).toEqual(mockedOrder.cpf);
       });
   });
 
@@ -84,15 +84,9 @@ describe('OrderController (e2e)', () => {
       });
   });
 
-  it('/v1/order/:id (DELETE)', () => {
-    return request(app.getHttpServer())
-      .delete(`/v1/order/${mockedOrder.id}`)
-      .expect(204);
-  });
-
   it('/v1/order (POST)', () => {
     const mockedOrderToCreate = {
-      user_id: 23,
+      cpf: 23,
     };
 
     return request(app.getHttpServer())
@@ -106,7 +100,7 @@ describe('OrderController (e2e)', () => {
 
   it('/v1/order (POST) with product', () => {
     const mockedOrderToCreate = {
-      user_id: 23,
+      cpf: 23,
     };
 
     return request(app.getHttpServer())

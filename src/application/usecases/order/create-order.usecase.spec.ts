@@ -16,7 +16,7 @@ describe('CreateOrderUseCase', () => {
     it('should create a new order', async () => {
       const mockOrder = {
         id: 1,
-        user_id: 1,
+        cpf: 1,
         total: 100,
         createdAt: new Date(),
         updatedAt: new Date(),

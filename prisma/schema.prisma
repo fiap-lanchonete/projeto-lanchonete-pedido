@@ -34,7 +34,7 @@ model Category {
 model Order {
   id        Int       @id @default(autoincrement())
   total     Float?
-  user_id   Int?
+  cpf       Int?
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())

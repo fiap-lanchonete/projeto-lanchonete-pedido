@@ -11,3 +11,6 @@ stop_dev:
 
 stop_test:
 	docker compose stop db-pedido-test
+
+bash_dev:
+	docker exec -it projeto-lanchonete-pedidos-api-1 sh
