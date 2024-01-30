@@ -23,6 +23,14 @@ Para solucionar o problema, a lanchonete irá investir em um sistema de autoaten
   - [Repositório do serviço de pedido](https://github.com/fiap-lanchonete/projeto-lanchonete-pedido)
   - [Repositório do serviço de produção](https://github.com/fiap-lanchonete/projeto-lanchonete-producao)
 
+## SONAR
+
+![Sonar](https://i.imgur.com/yBf7jI7.png)
+
+O SonarQube será integrado ao pipeline de Integração Contínua (CI) para garantir a qualidade do código e a cobertura de testes. A cada novo commit no repositório, o pipeline será acionado, realizando automaticamente a análise do código com o SonarQube. Esta análise inclui a verificação de bugs, vulnerabilidades de segurança, dívida técnica e, claro, a cobertura de testes.
+
+Para garantir um padrão elevado de qualidade, configuraremos o SonarQube para falhar a build caso a cobertura de testes seja inferior a 80%. Isso significa que, se o código submetido não atender a esse critério, a equipe será notificada para fazer as devidas correções antes que o código possa ser integrado à base principal.
+
 ## BANCO DE DADOS
 
 Para esta fase, foram utilizados os seguintes bancos de dados:
