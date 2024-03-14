@@ -6,7 +6,7 @@ import { OrderService } from 'src/application/services/order.service';
 export class UpdateOrderUseCase {
   constructor(private readonly orderService: OrderService) {}
 
-  async execute(id: number, data: Partial<UpdateOrderDTO>) {
-    return await this.orderService.update(id, data);
+  async execute(idempotent_key: string, data: Partial<UpdateOrderDTO>) {
+    return await this.orderService.update(idempotent_key, data);
   }
 }

@@ -15,8 +15,8 @@ describe('CreateOrderUseCase', () => {
   describe('execute', () => {
     it('should create a new order', async () => {
       const mockOrder = {
-        id: 1,
-        cpf: 1,
+        idempotent_key: '1',
+        cpf: '12345678909',
         total: 100,
         createdAt: new Date(),
         updatedAt: new Date(),

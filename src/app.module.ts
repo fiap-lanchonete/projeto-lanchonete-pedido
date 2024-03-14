@@ -1,6 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { CategoryController } from 'src/adapters/controllers/category/category.controller';
 import { OrderController } from 'src/adapters/controllers/order/order.controller';
 import { ProductController } from 'src/adapters/controllers/product/product.controller';
@@ -64,6 +65,21 @@ import { UpdateProductsUseCase } from 'src/application/usecases/product/update-p
       useClass: ClassSerializerInterceptor,
     },
     PrismaHelper,
+    {
+      provide: 'RMQ_CLIENT',
+      useFactory: () => {
+        return ClientProxyFactory.create({
+          transport: Transport.RMQ,
+          options: {
+            urls: [process.env.RMQ_URL],
+            queue: 'start_payment',
+            queueOptions: {
+              durable: true,
+            },
+          },
+        });
+      },
+    },
   ],
 })
 export class AppModule {}

@@ -21,14 +21,14 @@ describe('UpdateOrderUseCase', () => {
             id: 1,
           },
         ],
-        cpf: 1,
+        cpf: '12345678909',
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       jest.spyOn(orderService, 'update').mockResolvedValue(mockOrder);
 
-      const result = await updateOrderUseCase.execute(1, mockOrder);
+      const result = await updateOrderUseCase.execute('1', mockOrder);
       expect(result).toEqual(mockOrder);
     });
   });

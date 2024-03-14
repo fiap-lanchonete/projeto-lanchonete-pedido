@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Order } from 'src/@types/order';
+import { Order as PrismaOrder, Product } from '@prisma/client';
 import { UpdateOrderDTO } from 'src/application/dtos/update-order.dto';
 import { IOrder } from 'src/application/interfaces/order.repository.interface';
 
@@ -10,12 +11,14 @@ export class OrderService {
     private readonly orderRepository: IOrder,
   ) {}
 
-  async findOne(id: number): Promise<Order.Data | null> {
-    return await this.orderRepository.findOne(id);
+  async findOne(idempotent_key: string): Promise<Order.Data | null> {
+    return await this.orderRepository.findOne(idempotent_key);
   }
 
-  async findOneToPayment(id: number): Promise<Order.Data> {
-    return await this.orderRepository.findOneToPayment(id);
+  async findOneToPayment(
+    idempotent_key: string,
+  ): Promise<PrismaOrder & { products: Product[] }> {
+    return await this.orderRepository.findOneToPayment(idempotent_key);
   }
 
   async create(order: Partial<Order.Data>): Promise<Order.Data> {
@@ -23,15 +26,15 @@ export class OrderService {
   }
 
   async update(
-    id: number,
+    idempotent_key: string,
     data: Partial<UpdateOrderDTO>,
   ): Promise<Order.Data | null> {
-    await this.orderRepository.update(id, data);
+    await this.orderRepository.update(idempotent_key, data);
 
-    return this.orderRepository.findOne(id);
+    return this.orderRepository.findOne(idempotent_key);
   }
 
-  async delete(id: number): Promise<void> {
-    await this.orderRepository.remove(id);
+  async delete(idempotent_key: string): Promise<void> {
+    await this.orderRepository.remove(idempotent_key);
   }
 }

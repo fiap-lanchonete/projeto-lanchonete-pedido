@@ -8,18 +8,20 @@ import { UpdateOrderDTO } from 'src/application/dtos/update-order.dto';
 export class OrderRepository implements IOrder {
   constructor(private readonly prisma: PrismaHelper) {}
 
-  async findOne(id: number): Promise<Order> {
+  async findOne(idempotent_key: string): Promise<Order> {
     return await this.prisma.order.findUnique({
-      where: { id },
+      where: { idempotent_key },
       include: {
         products: true,
       },
     });
   }
 
-  async findOneToPayment(id: number): Promise<Order> {
+  async findOneToPayment(
+    idempotent_key: string,
+  ): Promise<Order & { products: Product[] }> {
     return await this.prisma.order.findUnique({
-      where: { id },
+      where: { idempotent_key },
       include: {
         products: true,
       },
@@ -36,9 +38,9 @@ export class OrderRepository implements IOrder {
     }
   }
 
-  async update(id: number, order: UpdateOrderDTO): Promise<Order> {
+  async update(idempotent_key: string, order: UpdateOrderDTO): Promise<Order> {
     const orderFound = await this.prisma.order.findUnique({
-      where: { id },
+      where: { idempotent_key },
       include: {
         products: true,
       },
@@ -71,7 +73,7 @@ export class OrderRepository implements IOrder {
     }, 0);
 
     const data = await this.prisma.order.update({
-      where: { id },
+      where: { idempotent_key },
       data: {
         products: {
           set: updatedProducts,
@@ -86,9 +88,9 @@ export class OrderRepository implements IOrder {
     return data;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(idempotent_key: string): Promise<void> {
     await this.prisma.order.delete({
-      where: { id },
+      where: { idempotent_key },
     });
   }
 }

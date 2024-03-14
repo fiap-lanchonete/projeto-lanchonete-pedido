@@ -1,21 +1,26 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { OrderMapper } from 'src/application/mappers/order.mapper';
 import { OrderService } from 'src/application/services/order.service';
 
 @Injectable()
 export class StartPaymentUseCase {
   constructor(
     private readonly orderService: OrderService,
-    private readonly httpService: HttpService,
+    @Inject('RMQ_CLIENT') private readonly client: ClientProxy,
   ) {}
 
-  async execute(id: number) {
-    const response = await this.orderService.findOneToPayment(id);
+  async execute(idempotent_key: string) {
+    const paymentData = await this.orderService.findOneToPayment(
+      idempotent_key,
+    );
+
+    const transformedData = OrderMapper.toPayment(paymentData);
 
     try {
       await firstValueFrom(
-        this.httpService.post(process.env.PAYMENT_SERVICE_URL, response),
+        await this.client.emit('start_payment', transformedData),
       );
 
       return { message: 'Success' };
