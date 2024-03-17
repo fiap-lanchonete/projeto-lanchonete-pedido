@@ -15,8 +15,8 @@ describe('GetOrderUseCase', () => {
   describe('execute', () => {
     it('should get an order by id', async () => {
       const mockOrder = {
-        id: 1,
-        cpf: 1,
+        idempotent_key: '1',
+        cpf: '12345678909',
         total: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -24,7 +24,7 @@ describe('GetOrderUseCase', () => {
 
       jest.spyOn(orderService, 'findOne').mockResolvedValue(mockOrder);
 
-      const result = await getOrderUseCase.execute(1);
+      const result = await getOrderUseCase.execute('1');
       expect(result).toEqual(mockOrder);
     });
   });

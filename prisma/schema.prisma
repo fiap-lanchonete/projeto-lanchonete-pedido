@@ -32,10 +32,13 @@ model Category {
 }
 
 model Order {
-  id        Int       @id @default(autoincrement())
-  total     Float?
-  cpf       Int?
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  id             Int       @id @default(autoincrement())
+  total          Float?
+  name           String    @default("")
+  email          String    @default("")
+  cpf            String?
+  products       Product[]
+  idempotent_key String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
 }

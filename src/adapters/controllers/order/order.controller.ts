@@ -8,6 +8,8 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { CreateOrderDTO } from 'src/application/dtos/create-order.dto';
 import { UpdateOrderDTO } from 'src/application/dtos/update-order.dto';
@@ -26,34 +28,33 @@ export class OrderController {
     private readonly startPaymentUseCase: StartPaymentUseCase,
   ) {}
 
-  @Post('')
-  @ApiOperation({ summary: 'Creates a new order' })
-  async createOrder(@Body() data: CreateOrderDTO) {
-    return await this.createOrderUseCase.execute(data);
+  @MessagePattern('identify_user')
+  async receiveOrder(@Payload() data: CreateOrderDTO) {
+    await this.createOrderUseCase.execute(data);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get order by id' })
-  @ApiParam({ name: 'id', type: 'string' })
-  async getOrder(@Param('id') id: string) {
-    return await this.getOrderUseCase.execute(Number(id));
+  @Get(':idempotent_key')
+  @ApiOperation({ summary: 'Get order by idempotent_key' })
+  @ApiParam({ name: 'idempotent_key', type: 'string' })
+  async getOrder(@Param('idempotent_key') idempotent_key: string) {
+    return await this.getOrderUseCase.execute(idempotent_key);
   }
 
-  @Put(':id')
+  @Put(':idempotent_key')
   @ApiOperation({ summary: 'Update order by id' })
-  @ApiParam({ name: 'id', type: 'string' })
+  @ApiParam({ name: 'idempotent_key', type: 'string' })
   async updateProductsOrder(
-    @Param('id') id: string,
+    @Param('idempotent_key') idempotent_key: string,
     @Body() data: Partial<UpdateOrderDTO>,
   ) {
-    return await this.updateOrderUseCase.execute(Number(id), data);
+    return await this.updateOrderUseCase.execute(idempotent_key, data);
   }
 
-  @Post('/start-payment/:id')
+  @Post('/start-payment/:idempotent_key')
   @ApiOperation({ summary: 'Start payment process' })
-  @ApiParam({ name: 'id', type: 'string' })
+  @ApiParam({ name: 'idempotent_key', type: 'string' })
   @HttpCode(HttpStatus.CREATED)
-  async startPayment(@Param('id') id: string) {
-    return await this.startPaymentUseCase.execute(Number(id));
+  async startPayment(@Param('idempotent_key') idempotent_key: string) {
+    return await this.startPaymentUseCase.execute(idempotent_key);
   }
 }

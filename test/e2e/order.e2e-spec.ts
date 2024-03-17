@@ -24,9 +24,10 @@ describe('OrderController (e2e)', () => {
   };
 
   const mockedOrder = {
-    id: 333,
+    id: 1,
+    idempotent_key: '333',
     total: 1,
-    cpf: 22,
+    cpf: '12345678909',
     createdAt: new Date(),
     updatedAt: new Date(),
   };
@@ -57,7 +58,7 @@ describe('OrderController (e2e)', () => {
 
   it('/v1/order/:id (GET)', () => {
     return request(app.getHttpServer())
-      .get(`/v1/order/${mockedOrder.id}`)
+      .get(`/v1/order/${mockedOrder.idempotent_key}`)
       .expect(200)
       .expect((response) => {
         expect(response.body.id).toEqual(mockedOrder.id);
@@ -66,7 +67,7 @@ describe('OrderController (e2e)', () => {
       });
   });
 
-  it('/v1/order/:id (PUT)', () => {
+  it('/v1/order/:idempotent_key (PUT)', () => {
     const mockedOrderToUpdate = {
       products: [
         {
@@ -76,37 +77,9 @@ describe('OrderController (e2e)', () => {
     };
 
     return request(app.getHttpServer())
-      .put(`/v1/order/${mockedOrder.id}`)
+      .put(`/v1/order/${mockedOrder.idempotent_key}`)
       .send(mockedOrderToUpdate)
       .expect(200)
-      .expect((response) => {
-        expect(response.body.id).toBeDefined();
-      });
-  });
-
-  it('/v1/order (POST)', () => {
-    const mockedOrderToCreate = {
-      cpf: 23,
-    };
-
-    return request(app.getHttpServer())
-      .post('/v1/order')
-      .send(mockedOrderToCreate)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body.id).toBeDefined();
-      });
-  });
-
-  it('/v1/order (POST) with product', () => {
-    const mockedOrderToCreate = {
-      cpf: 23,
-    };
-
-    return request(app.getHttpServer())
-      .post('/v1/order')
-      .send(mockedOrderToCreate)
-      .expect(201)
       .expect((response) => {
         expect(response.body.id).toBeDefined();
       });

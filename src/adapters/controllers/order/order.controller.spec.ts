@@ -1,4 +1,4 @@
-import { HttpService } from '@nestjs/axios';
+import { ClientProxy } from '@nestjs/microservices';
 import { OrderController } from 'src/adapters/controllers/order/order.controller';
 import { OrderRepository } from 'src/adapters/database/repositories/order.repository';
 import { OrderService } from 'src/application/services/order.service';
@@ -21,10 +21,14 @@ describe('OrderController', () => {
     createOrderUseCase = new CreateOrderUseCase(mockOrderService);
     getOrderUseCase = new GetOrderUseCase(mockOrderService);
     updateOrderUseCase = new UpdateOrderUseCase(mockOrderService);
-    const mockedHttpService = new HttpService();
+    const mockClientProxy: Partial<ClientProxy> = {
+      send: jest.fn().mockImplementation((pattern, data) => {
+        return Promise.resolve({ message: 'Success' });
+      }),
+    };
     startPaymentUseCase = new StartPaymentUseCase(
       mockOrderService,
-      mockedHttpService,
+      mockClientProxy as ClientProxy,
     );
 
     orderController = new OrderController(
@@ -33,32 +37,6 @@ describe('OrderController', () => {
       updateOrderUseCase,
       startPaymentUseCase,
     );
-  });
-
-  describe('createOrder', () => {
-    it('should create a new order', async () => {
-      const mockOrder = {
-        id: 1,
-        name: 'Order 1',
-        price: 10,
-        amount: 1,
-        description: 'Description 1',
-        category_id: 1,
-        cpf: 22,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      jest
-        .spyOn(createOrderUseCase, 'execute')
-        .mockImplementation(() => Promise.resolve(mockOrder));
-
-      expect(
-        await orderController.createOrder({
-          cpf: 22,
-        }),
-      ).toEqual(mockOrder);
-    });
   });
 
   describe('getOrder', () => {
@@ -70,7 +48,7 @@ describe('OrderController', () => {
         amount: 1,
         description: 'Description 1',
         category_id: 1,
-        cpf: 23,
+        cpf: '12345678901',
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -92,7 +70,7 @@ describe('OrderController', () => {
         amount: 1,
         description: 'Description 1',
         category_id: 1,
-        cpf: 24,
+        cpf: '12345678901',
         createdAt: new Date(),
         updatedAt: new Date(),
       };

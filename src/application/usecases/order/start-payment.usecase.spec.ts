@@ -1,4 +1,4 @@
-import { HttpService } from '@nestjs/axios';
+import { ClientProxy } from '@nestjs/microservices';
 import { AxiosResponse } from 'axios';
 import { of, throwError } from 'rxjs';
 import { OrderRepository } from 'src/adapters/database/repositories/order.repository';
@@ -8,15 +8,18 @@ import { StartPaymentUseCase } from 'src/application/usecases/order/start-paymen
 describe('StartPaymentUseCase', () => {
   let startPaymentUseCase: StartPaymentUseCase;
   let orderService: OrderService;
-  let mockedHttpService: HttpService;
+  const mockClientProxy: Partial<ClientProxy> = {
+    emit: jest.fn().mockImplementation((pattern, data) => {
+      return Promise.resolve({ message: 'Success' });
+    }),
+  };
 
   beforeEach(() => {
     const mockOrderRepository = {} as OrderRepository;
-    mockedHttpService = new HttpService();
     orderService = new OrderService(mockOrderRepository);
     startPaymentUseCase = new StartPaymentUseCase(
       orderService,
-      mockedHttpService,
+      mockClientProxy as ClientProxy,
     );
   });
 
@@ -27,43 +30,65 @@ describe('StartPaymentUseCase', () => {
         products: [
           {
             id: 1,
+            name: 'Product Name',
+            price: 22,
+            description: 'Product Description',
+            amount: 1,
+            category_id: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
-        cpf: 1,
+        idempotent_key: 'abea-a2asf-123',
+        total: 22,
+        cpf: '12345678909',
+        name: 'John Doe',
+        email: 'johndoe@email.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       jest.spyOn(orderService, 'findOneToPayment').mockResolvedValue(mockOrder);
       jest
-        .spyOn(mockedHttpService, 'post')
+        .spyOn(mockClientProxy, 'emit')
         .mockImplementationOnce(() => of({} as AxiosResponse));
 
-      const result = await startPaymentUseCase.execute(1);
+      const result = await startPaymentUseCase.execute('1');
       expect(result).toEqual({ message: 'Success' });
     });
 
     it('should throw error if request fails', async () => {
       const mockOrder = {
         id: 1,
+        total: 22,
         products: [
           {
             id: 1,
+            name: 'Product Name',
+            price: 22,
+            description: 'Product Description',
+            amount: 1,
+            category_id: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
-        cpf: 1,
+        idempotent_key: 'abea-a2asf-123',
+        cpf: '12345678909',
+        name: 'John Doe',
+        email: 'johndoe@email.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       jest.spyOn(orderService, 'findOneToPayment').mockResolvedValue(mockOrder);
       jest
-        .spyOn(mockedHttpService, 'post')
+        .spyOn(mockClientProxy, 'emit')
         .mockImplementationOnce(() =>
           throwError(() => new Error('Random error')),
         );
 
-      const result = startPaymentUseCase.execute(1);
+      const result = startPaymentUseCase.execute('1');
       expect(result).rejects.toThrow(
         'Error occurred when trying to create a new payment',
       );
