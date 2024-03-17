@@ -16,7 +16,7 @@ services:
       - .:/usr/src/app/
       - /usr/src/app/node_modules
     networks:
-      - lanchonete_shared_network
+      - pedido-network
   db-pedido:
     image: postgres
     container_name: db-pedido
@@ -28,7 +28,7 @@ services:
     volumes:
       - postgres_pedido:/var/lib/postgresql/data/
     networks:
-      - lanchonete_shared_network
+      - pedido-network
   db-pedido-test:
     image: postgres
     container_name: db-pedido-test
@@ -40,10 +40,10 @@ services:
     volumes:
       - pedido_db_test:/var/lib/postgresql/data/
     networks:
-      - lanchonete_shared_network
+      - pedido-network
 volumes:
   postgres_pedido:
   pedido_db_test:
 networks:
-  lanchonete_shared_network:
-    external: true
+  pedido-network:
+    name: pedido-network
