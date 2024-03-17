@@ -9,5 +9,13 @@ export class CreateOrderDTO {
 
   @ApiProperty()
   @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsString()
+  email: string;
+
+  @ApiProperty()
+  @IsString()
   idempotent_key: string;
 }

@@ -34,6 +34,8 @@ model Category {
 model Order {
   id             Int       @id @default(autoincrement())
   total          Float?
+  name           String    @default("")
+  email          String    @default("")
   cpf            String?
   products       Product[]
   idempotent_key String    @unique

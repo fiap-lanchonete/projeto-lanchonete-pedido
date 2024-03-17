@@ -42,6 +42,8 @@ describe('StartPaymentUseCase', () => {
         idempotent_key: 'abea-a2asf-123',
         total: 22,
         cpf: '12345678909',
+        name: 'John Doe',
+        email: 'johndoe@email.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -73,6 +75,8 @@ describe('StartPaymentUseCase', () => {
         ],
         idempotent_key: 'abea-a2asf-123',
         cpf: '12345678909',
+        name: 'John Doe',
+        email: 'johndoe@email.com',
         createdAt: new Date(),
         updatedAt: new Date(),
       };

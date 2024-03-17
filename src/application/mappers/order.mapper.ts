@@ -4,9 +4,9 @@ import { CreatePaymentDTO } from 'src/application/dtos/create-payment.dto';
 export class OrderMapper {
   static toPayment(order: Order & { products: Product[] }): CreatePaymentDTO {
     return {
-      payerFirstName: 'John',
-      payerLastName: 'Doe',
-      email: 'johndoe@email.com',
+      payerFirstName: order.name,
+      payerLastName: '',
+      email: order.email,
       idempotent_key: order.idempotent_key,
       identificationType: 'CPF',
       identificationNumber: Number(order.cpf),

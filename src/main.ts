@@ -22,7 +22,7 @@ async function bootstrap() {
   app.get(PrismaHelper, { strict: false });
 
   const config = new DocumentBuilder()
-    .setTitle('Lanchonete API')
+    .setTitle('Lanchonete Pedidos API')
     .setDescription('API para a lanchonete')
     .setVersion('1.0')
     .build();
