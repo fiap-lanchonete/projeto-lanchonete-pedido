@@ -13,6 +13,7 @@ spec:
       labels:
         app: lanchonete-pedido
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: projeto-lanchonete-pedido
           image: rickwalking/lanchonete-pedido:latest
